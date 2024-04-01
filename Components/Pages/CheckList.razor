@@ -1,0 +1,30 @@
+﻿@page "/checklist"
+@rendermode InteractiveServer
+
+
+<h3>CheckList (@checkLists.Count(checklist => !checklist.IsDone))</h3>
+<ul>
+    @foreach(var checklist in checkLists){
+        <li>
+            <input type="checkbox" @bind="checklist.IsDone" />
+            <input @bind="checklist.Title" />
+        </li>
+    }
+</ul>
+
+<input @bind="newChecklist" />
+<button @onclick="AddCheckList">Add todo</button>
+
+
+@code {
+private List<CheckListItem> checkLists = new();
+string newChecklist = "";
+
+void AddCheckList(){
+    if (!string.IsNullOrWhiteSpace(newChecklist))
+    {
+        checkLists.Add(new CheckListItem { Title = newChecklist });
+        newChecklist = string.Empty;
+    }
+}
+}
